@@ -1,0 +1,15 @@
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+span {
+  color: red;
+}
