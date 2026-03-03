@@ -9,13 +9,13 @@ const Search = ({ setUser }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError(null);
+    setError(null); // Reset error before new request
 
     try {
       const userData = await fetchUserData(searchTerm);
-      setUser(userData);
+      setUser(userData); // Pass data to the parent component
     } catch (err) {
-      setError('Looks like we can\'t find the user');
+      setError('Looks like we can\'t find the user'); // Show error if the user is not found
     } finally {
       setLoading(false);
     }
