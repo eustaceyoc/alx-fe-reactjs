@@ -5,7 +5,7 @@ const Search = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  
+
   const [user, setUser] = useState({
     avatar_url: '',
     login: '',
@@ -44,14 +44,18 @@ const Search = () => {
           Search
         </button>
       </form>
+      
+      {/* Display loading state */}
       {loading && <p>Loading...</p>}
+
+      {/* Display error message if user is not found */}
       {error && <p>{error}</p>}
       
       {/* Display user data */}
       {user.login && (
         <div>
           <h2>{user.login}</h2>
-          <img src={user.avatar_url} alt={user.login} width={100} /> {/* Display avatar */}
+          <img src={user.avatar_url} alt={user.login} width={100} />
           <p>Login: {user.login}</p>
           <p><a href={`https://github.com/${user.login}`} target="_blank" rel="noopener noreferrer">View Profile</a></p>
         </div>
