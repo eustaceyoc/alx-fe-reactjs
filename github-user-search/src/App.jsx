@@ -1,13 +1,20 @@
-import React from 'react';
-import Search from './components/Search';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./components/Home";
+import NotFound from "./components/NotFound";
+import Search from "./components/Search";
 
-const App = () => {
+function App() {
   return (
-    <div>
-      <h1>GitHub User Search</h1>
+    <>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Router>
       <Search />
-    </div>
-  );
-};
+    </>
+  )
+}
 
-export default App;
+export default App

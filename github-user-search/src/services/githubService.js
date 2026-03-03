@@ -1,12 +1,31 @@
-import axios from 'axios';
+import axios from "axios";
 
-const API_URL = 'https://api.github.com/users/';
+const githubApi = axios.create({
+  baseURL: "https://api.github.com",
+  headers: {
+    Authorization: import.meta.env.VITE_GITHUB_API_KEY
+      ? `token ${import.meta.env.VITE_GITHUB_API_KEY}`
+      : undefined,
+  },
+});
 
-export const fetchUserData = async (username) => {
+export const fetchUserData = async ({ username, location, minRepos }) => {
   try {
-    const response = await axios.get(`${API_URL}${username}`);
-    return response.data;
+    let query = username || "";
+
+    if (location) {
+      query += `+location:${location}`;
+    }
+
+    if (minRepos) {
+      query += `+repos:>${minRepos}`;
+    }
+
+    // Using GitHub Search API: https://api.github.com/search/users?q={query}
+    const response = await githubApi.get(`/search/users?q=${query}`);
+    return response.data.items;
   } catch (error) {
-    throw new Error('User not found');
+    console.error(error);
+    throw new Error("Failed to fetch users from GitHub");
   }
 };
