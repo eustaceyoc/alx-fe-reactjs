@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
 import { fetchUserData } from '../services/githubService';
 
-const Search = ({ setUser }) => {
+const Search = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  
+  const [user, setUser] = useState({
+    avatar_url: '',
+    login: '',
+    img: ''
+  });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -13,7 +19,11 @@ const Search = ({ setUser }) => {
 
     try {
       const userData = await fetchUserData(searchTerm);
-      setUser(userData);
+      setUser({
+        avatar_url: userData.avatar_url,
+        login: userData.login,
+        img: userData.avatar_url
+      });
     } catch (err) {
       setError('Looks like we can\'t find the user');
     } finally {
@@ -36,6 +46,16 @@ const Search = ({ setUser }) => {
       </form>
       {loading && <p>Loading...</p>}
       {error && <p>{error}</p>}
+      
+      {/* Display user data */}
+      {user.login && (
+        <div>
+          <h2>{user.login}</h2>
+          <img src={user.avatar_url} alt={user.login} width={100} /> {/* Display avatar */}
+          <p>Login: {user.login}</p>
+          <p><a href={`https://github.com/${user.login}`} target="_blank" rel="noopener noreferrer">View Profile</a></p>
+        </div>
+      )}
     </div>
   );
 };
